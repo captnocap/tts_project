@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/user';
 import { logError } from '../utils/logger';
 
-const JWT_SECRET = 'your_jwt_secret'; // Should be in environment variables
+const JWT_SECRET = 'filler_content'; // Should be in environment variables
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
