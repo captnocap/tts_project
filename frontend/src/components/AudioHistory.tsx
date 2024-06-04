@@ -40,7 +40,7 @@ const AudioHistory: React.FC = () => {
           Authorization: `Bearer ${token}`
         }
       });
-      setAudioFiles(audioFiles.filter(file => file !== orderId));
+      setAudioFiles(audioFiles.filter((file) => file !== orderId));
     } catch (err) {
       setError('Failed to delete audio file');
     } finally {
@@ -56,8 +56,13 @@ const AudioHistory: React.FC = () => {
       <ListGroup>
         {audioFiles.map((file) => (
           <ListGroup.Item key={file}>
-            <audio controls src={`http://localhost:5000/api/tts/audio/${file}`} />
-            <Button variant="danger" onClick={() => handleDelete(file)}>Delete</Button>
+            <audio
+              controls
+              src={`http://localhost:5000/api/tts/audio/${file}`}
+            />
+            <Button variant="danger" onClick={() => handleDelete(file)}>
+              Delete
+            </Button>
           </ListGroup.Item>
         ))}
       </ListGroup>

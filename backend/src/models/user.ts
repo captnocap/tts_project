@@ -4,10 +4,10 @@ import bcrypt from 'bcrypt';
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  token: { type: String, required: true },
+  token: { type: String, required: true }
 });
 
-UserSchema.pre('save', async function(next) {
+UserSchema.pre('save', async function (next) {
   const user = this;
   if (!user.isModified('password')) return next();
   const salt = await bcrypt.genSalt(10);
@@ -15,7 +15,7 @@ UserSchema.pre('save', async function(next) {
   next();
 });
 
-UserSchema.methods.comparePassword = async function(candidatePassword) {
+UserSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 

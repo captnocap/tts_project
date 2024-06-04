@@ -1,5 +1,12 @@
 import { Router } from 'express';
-import { handleWebhook, generateAudio, listAudioFiles, deleteAudioFile, synthesizeText, getModels } from '../controllers/ttsController.ts';
+import {
+  handleWebhook,
+  generateAudio,
+  listAudioFiles,
+  deleteAudioFile,
+  synthesizeText,
+  getModels
+} from '../controllers/ttsController.ts';
 
 const router = Router();
 

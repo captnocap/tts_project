@@ -46,11 +46,14 @@ const TTSInput: React.FC = () => {
         body: JSON.stringify({ text, model: selectedModel })
       });
       const data = await response.json();
-      const blobResponse = await fetch(`http://localhost:5000/api/tts/audio/${data.orderId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      const blobResponse = await fetch(
+        `http://localhost:5000/api/tts/audio/${data.orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
-      });
+      );
       const blob = await blobResponse.blob();
       setAudioSrc(URL.createObjectURL(blob));
       const endTime = Date.now();
@@ -68,13 +71,23 @@ const TTSInput: React.FC = () => {
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="ttsText">
           <Form.Label>Text</Form.Label>
-          <Form.Control as="textarea" value={text} onChange={(e) => setText(e.target.value)} />
+          <Form.Control
+            as="textarea"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
         </Form.Group>
         <Form.Group controlId="ttsModel">
           <Form.Label>Select Model</Form.Label>
-          <Form.Control as="select" value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}>
+          <Form.Control
+            as="select"
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
+          >
             {models.map((model) => (
-              <option key={model} value={model}>{model}</option>
+              <option key={model} value={model}>
+                {model}
+              </option>
             ))}
           </Form.Control>
         </Form.Group>

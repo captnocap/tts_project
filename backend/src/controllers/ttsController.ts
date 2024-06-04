@@ -28,29 +28,35 @@ export const generateAudio = async (req: Request, res: Response) => {
   }
 
   const outputPath = path.join(__dirname, `../../audio/${orderId}.wav`);
-  exec(`python3 ./src/services/ttsService.py "${order.orderNotes}" "${outputPath}" "${model}"`, async (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      logError(`exec error: ${error}`);
-      return res.status(500).send('Error generating audio');
+  exec(
+    `python3 ./src/services/ttsService.py "${order.orderNotes}" "${outputPath}" "${model}"`,
+    async (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        logError(`exec error: ${error}`);
+        return res.status(500).send('Error generating audio');
+      }
+      order.audioPath = outputPath;
+      await order.save();
+      res.download(outputPath);
     }
-    order.audioPath = outputPath;
-    await order.save();
-    res.download(outputPath);
-  });
+  );
 };
 
 export const synthesizeText = async (req: Request, res: Response) => {
   const { text, model } = req.body;
   const orderId = `custom_${new Date().getTime()}`;
   const outputPath = path.join(__dirname, `../../audio/${orderId}.wav`);
-  
-  exec(`python3 ./src/services/ttsService.py "${text}" "${outputPath}" "${model}"`, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      logError(`exec error: ${error}`);
-      return res.status(500).send('Error generating audio');
+
+  exec(
+    `python3 ./src/services/ttsService.py "${text}" "${outputPath}" "${model}"`,
+    (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        logError(`exec error: ${error}`);
+        return res.status(500).send('Error generating audio');
+      }
+      res.status(200).json({ orderId, audioPath: outputPath });
     }
-    res.status(200).json({ orderId, audioPath: outputPath });
-  });
+  );
 };
